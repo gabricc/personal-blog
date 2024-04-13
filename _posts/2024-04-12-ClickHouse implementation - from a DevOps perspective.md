@@ -16,7 +16,7 @@ At the beginning of 2023, after several discussions and some intensive research,
 The main motivators for this restructuring were: increasing our analytical capabilities; enabling us to provide better features to our users; achieving cost reduction; and solving replication issues caused by vendor lock-in.
 
 This diagram presents the final architecture we decided to implement:
-![arquitetura](/assets/images/clickhouse/architecture.png)
+![](assets/images/clickhouse/architecture.png)
 
 <br>
 
@@ -25,13 +25,14 @@ We have data coming from many different sources: some of them are third party pr
 
 1. Airbyte (raw JSON)
 
-![airbyte-json](/assets/images/clickhouse/airbyte-json.png)
+![](assets/images/clickhouse/airbyte-json.png)
+![](assets/images/system-design/concurrency-example.png)
 
 Data comes from the source as raw JSON to an ingestion database (e.g. google_ads_ingestion);
 We run a dbt model on top of the raw data sending the new data to a structured database (e.g. dbt_google_ads).
 2. Airbyte (normalized data)
 
-![airbyte-normalized](/assets/images/clickhouse/airbyte-normalized.png)
+![](assets/images/clickhouse/airbyte-normalized.png)
 
 2.1. Data comes from the source as raw JSON;
 
@@ -39,7 +40,7 @@ We run a dbt model on top of the raw data sending the new data to a structured d
 
 3. ClickHouse MaterializedPostgreSQL Engine
 
-![ch-materializedPostgresql](/assets/images/clickhouse/ch-materializedPostgresql.png)
+![](assets/images/clickhouse/ch-materializedPostgresql.png)
 
 Data is replicated from the source using a ClickHouse feature called MaterializedPostgreSQL Engine.
 
@@ -67,7 +68,7 @@ After some research and testing we decided to go with:
 - Storage: 1TB SSD (gp3)
 The reason we picked the c7g family is because c7g instances are powered by the latest generation AWS Graviton3 processors and provide the best price performance in Amazon EC2 for compute-intensive workloads. As you can see in the graph below, we are making good use of this processing power:
 
-![cpu-graph](/assets/images/clickhouse/cpu-graph.png)
+![](assets/images/clickhouse/cpu-graph.png)
 
 We chose EBS volumes with gp3 as they’re [faster and cheaper](https://aws.amazon.com/blogs/storage/migrate-your-amazon-ebs-volumes-from-gp2-to-gp3-and-save-up-to-20-on-costs/) than gp2. Also, we can optionally split the disk into multiple volumes as this can increase throughput, or have better costs if you tier your storage (e.g. automatically move data older than 3 months onto slower disks).
 
@@ -141,7 +142,7 @@ Server and database metrics are exported and stored in Prometheus through node_e
 
 Alerting rules were created using Prometheus AlertManager; these are the rules we have configured so far:
 
-![alerting](/assets/images/clickhouse/alerting.png)
+![](assets/images/clickhouse/alerting.png)
 
 ### Automated backups ☢️
 Backups are handled by ClickHouse’s built-in [backup feature](https://clickhouse.com/docs/en/operations/backup/#configuring-backuprestore-to-use-an-s3-endpoint) and stored inside an S3 bucket.
