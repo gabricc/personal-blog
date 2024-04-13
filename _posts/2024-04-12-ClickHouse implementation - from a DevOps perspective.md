@@ -24,16 +24,23 @@ This diagram presents the final architecture we decided to implement:
 We have data coming from many different sources: some of them are third party providers (e.g. Salesforce, Sendgrid, Google Ads.), others are internal services (e.g. PostgreSQL, GitHub). Because of that, our data pipeline had to be built to be flexible enough to receive all this data. Currently, data is being ingested into our data warehouse (ClickHouse) in three different ways:
 
 1. Airbyte (raw JSON)
+
 ![airbyte-json](assets/images/clickhouse/airbyte-json.png)
+
 Data comes from the source as raw JSON to an ingestion database (e.g. google_ads_ingestion);
 We run a dbt model on top of the raw data sending the new data to a structured database (e.g. dbt_google_ads).
 2. Airbyte (normalized data)
+
 ![airbyte-normalized](assets/images/clickhouse/airbyte-normalized.png)
-2.1 Data comes from the source as raw JSON;
-2.2 Airbyte runs an internal DBT model to transform that data and make it available in a structured way.
+
+2.1. Data comes from the source as raw JSON;
+
+2.2. Airbyte runs an internal DBT model to transform that data and make it available in a structured way.
 
 3. ClickHouse MaterializedPostgreSQL Engine
+
 ![ch-materializedPostgresql](assets/images/clickhouse/ch-materializedPostgresql.png)
+
 Data is replicated from the source using a ClickHouse feature called MaterializedPostgreSQL Engine.
 
 <br>
@@ -59,7 +66,9 @@ After some research and testing we decided to go with:
 - OS: Ubuntu Server 22.04 (ARM64)
 - Storage: 1TB SSD (gp3)
 The reason we picked the c7g family is because c7g instances are powered by the latest generation AWS Graviton3 processors and provide the best price performance in Amazon EC2 for compute-intensive workloads. As you can see in the graph below, we are making good use of this processing power:
+
 ![cpu-graph](assets/images/clickhouse/cpu-graph.png)
+
 We chose EBS volumes with gp3 as they’re [faster and cheaper](https://aws.amazon.com/blogs/storage/migrate-your-amazon-ebs-volumes-from-gp2-to-gp3-and-save-up-to-20-on-costs/) than gp2. Also, we can optionally split the disk into multiple volumes as this can increase throughput, or have better costs if you tier your storage (e.g. automatically move data older than 3 months onto slower disks).
 
 ### Server setup
@@ -131,6 +140,7 @@ The error log file is also being routed to our Elastic deployment.
 Server and database metrics are exported and stored in Prometheus through node_exporter and ClickHouse native exporter. These metrics are displayed in Grafana dashboards. I won’t dive into details here, but the dashboards can be easily found on the internet.
 
 Alerting rules were created using Prometheus AlertManager; these are the rules we have configured so far:
+
 ![alerting](assets/images/clickhouse/alerting.png)
 
 ### Automated backups ☢️
