@@ -9,11 +9,11 @@ google_analytics: ''
 include: ["_pages"]
 permalink: /:title/
 
-url: "https://gabricc.github.io/"
+url: "https://gabricc.github.io/personal-blog/"
 
 # Authors
 authors:
-  matheus:
+  gabriel:
     name: Gabtiel Carvalho
     display_name: Gabtiel Carvalho
     gravatar:
