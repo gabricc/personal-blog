@@ -9,7 +9,7 @@ google_analytics: ''
 include: ["_pages"]
 permalink: /:title/
 
-url: "https://gabricc.github.io/personal-blog/"
+url: "https://gabricc.github.io/"
 
 # Authors
 authors:
