@@ -1,6 +1,6 @@
 # Site
-name: "Gabtiel Carvalho"
-title: "Gabtiel Carvalho - Engineering Blog"
+name: "Gabriel Carvalho"
+title: "Gabriel Carvalho - Engineering Blog"
 description: "Technical Blog"
 logo: 'assets/images/logo.png'
 favicon: 'assets/images/logo.png'
@@ -14,8 +14,8 @@ url: "https://gabricc.github.io/personal-blog/"
 # Authors
 authors:
   gabriel:
-    name: Gabtiel Carvalho
-    display_name: Gabtiel Carvalho
+    name: Gabriel Carvalho
+    display_name: Gabriel Carvalho
     gravatar:
     email:
     web:
